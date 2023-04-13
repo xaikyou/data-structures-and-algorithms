@@ -38,7 +38,7 @@ struct LinkedList
         temp2->next = temp;
     }
 
-    void DeleteAtPosition(Node ** head, int n) // code by myself :>
+    void DeleteAtPosition(Node ** head, int n) 
     {
         Node* temp = *head;
         if (n == 1)
@@ -81,6 +81,34 @@ struct LinkedList
         }
         cout << endl;
     }
+
+    void RecursionPrint(Node* head) 
+    {
+        cout << head->data << " ";
+        /* 
+        used to write if (head != NULL) ...
+        and the program stop immediately without any error message
+        head after reach the end will be NULL and that code try to print a NULL
+        That is an "Undefined Behaviour" 
+        */
+        if (head->next != NULL) RecursionPrint(head->next);
+        else 
+        {
+            cout << endl;
+            return;
+        }
+    }
+
+    void PrintReverse(Node* head) // this doesn't change the original value like Reverse()
+    {
+        if (head != NULL) RecursionPrint(head->next);
+        else 
+        {
+            cout << endl;
+            return; // it reach NULL then comeback and start printing
+        }
+        cout << head->data << " ";
+    }
 };
 
 int main()
@@ -90,22 +118,21 @@ int main()
     int n;
     cout << "Enter the size: ";
     cin >> n;
-    int x = n;
 
-    for (int i = 0; i < n; i++)
+    /* "In any case, follow the guideline “prefer ++i over i++” and you won’t go wrong" */
+    for (int i = 0; i < n; ++i)
     {
-        list.InsertAtBeginning(&head, x--);
+        list.InsertAtBeginning(&head, i+1);
     }
+ 
+    // list.InsertAtPosition(&head, 99, 4);
     list.Print(head);
-
-    list.InsertAtPosition(&head, 99, 4);
-    list.Print(head);
-
-    list.DeleteAtPosition(&head, 4);
-    list.Print(head);
-
-    list.Reverse(&head);
-    list.Print(head);
+    list.RecursionPrint(head); 
+    // list.DeleteAtPosition(&head, 4);
+    // list.Print(head);
+    // list.RecursionPrint(head); 
+    // list.Reverse(&head);
+    // list.Print(head);
 
     free(head);
     return 0;
